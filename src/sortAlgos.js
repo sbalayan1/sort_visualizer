@@ -45,4 +45,23 @@ function quickSort(arr, left, right) {
     return arr
 }
 
-export {bubbleSort, quickSort, convertData}
+function cyclicSort(arr) {
+    let i = 0
+    while (i<arr.length) {
+        let j = arr[i] - 1
+        if (arr[i] !== arr[j]) {
+            [arr[i], arr[j]] = [arr[j], arr[i]]
+        } else {
+            i++
+        }
+    }
+
+    return arr
+}
+
+
+// const arr = [5,4,3,2,1]
+// console.log(cyclicSort(arr))
+
+
+export {bubbleSort, quickSort, cyclicSort, convertData}

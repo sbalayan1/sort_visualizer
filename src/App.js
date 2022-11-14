@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {ResponsiveContainer, BarChart, Bar, YAxis, XAxis, Tooltip, CartesianGrid} from 'recharts'
 
-import {bubbleSort, quickSort, convertData} from './sortAlgos'
+import {bubbleSort, quickSort, cyclicSort, convertData} from './sortAlgos'
 
 function App() {
   const [data, setData] = useState([])
@@ -24,6 +24,18 @@ function App() {
       }
     }
 
+    if (sortMethod === "Cyclic Sort") {
+      console.log('firing')
+      sortedData = cyclicSort(dataArr)
+      console.log(sortedData)
+      while (sortedData.find((val, index) => val > sortedData[index+1]) !== undefined) {
+        console.count('looping')
+        cyclicSort(dataArr)
+      }
+
+      console.log(sortedData)
+    }
+
     const end = window.performance.now()
     setTimeToComplete(end - start)
     setData(convertData(sortedData))
@@ -31,10 +43,10 @@ function App() {
 
   const handleReset = () => {
     let array = []
-    while (array.length <= 500) {
+    while (array.length <= 10) {
       const obj = {}
       obj["index"] = array.length
-      obj["value"] = Math.floor(Math.random() * 1000) + 1
+      obj["value"] = Math.floor(Math.random() * 10) + 1
       array.push(obj)
     }
 
@@ -62,6 +74,7 @@ function App() {
       <select onChange={(e) => setSortMethod(e.target.value)}>
         <option value="Quick Sort">Quick Sort</option>
         <option value="Bubble Sort">Bubble Sort</option>
+        <option value="Cyclic Sort">Cyclic Sort</option>
       </select>
       <button onClick={handleSort}>Sort</button>
       <button onClick={handleReset}>Reset</button>
