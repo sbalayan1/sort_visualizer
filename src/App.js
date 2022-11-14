@@ -31,10 +31,10 @@ function App() {
 
   const handleReset = () => {
     let array = []
-    while (array.length < 10) {
+    while (array.length <= 500) {
       const obj = {}
       obj["index"] = array.length
-      obj["value"] = Math.floor(Math.random()* 10) + 1
+      obj["value"] = Math.floor(Math.random() * 1000) + 1
       array.push(obj)
     }
 
