@@ -5,10 +5,13 @@ import {bubbleSort} from './sortAlgos'
 
 function App() {
   const [data, setData] = useState([])
+  const handleSort = () => {
+    setData(bubbleSort(data))
+  }
 
   useEffect(() => {
     setData(data => {
-      let array = []
+      let array = [...data]
       let count = 10
       while (count > 0) {
         const obj = {}
@@ -17,21 +20,24 @@ function App() {
         array.push(obj)
         count --
       }
-
-      setData(array)
+      console.log('state set')
+      return array
     })
   }, [])
 
   return (
-    <ResponsiveContainer height={500} width="50%">
-      <BarChart data={data}>
-        <XAxis dataKey="index"/>
-        <YAxis dataKey="value"/>
-        <CartesianGrid stroke="#ccc" strokeDasharray={"5 5"}/>
-        <Tooltip />
-        <Bar dataKey="value" stroke="#344F74" fill="#ba000d"/>
-      </BarChart>
-    </ResponsiveContainer>
+    <>
+      <ResponsiveContainer height={500} width="50%">
+        <BarChart data={data}>
+          <XAxis dataKey="index"/>
+          <YAxis dataKey="value"/>
+          <CartesianGrid stroke="#ccc" strokeDasharray={"5 5"}/>
+          <Tooltip />
+          <Bar dataKey="value" stroke="#344F74" fill="#ba000d"/>
+        </BarChart>
+      </ResponsiveContainer>
+      <button onClick={handleSort}>Sort</button>
+    </>
   );
 }
 

@@ -1,13 +1,24 @@
+function convertData(arr) {
+    return arr.map((value, index) => ({
+            index: index,
+            value: value
+        }
+    ))
+}
+
 function bubbleSort(arr) {
-    for (let i = 0; i<arr.length; i++) {
-        let j = i + 1
-        while (arr[i] > arr[j]) {
-            [arr[i], arr[j]] = [arr[j], arr[i]]
+    let dataArr = arr.map(obj => obj.value)
+    for (let i = 0; i<dataArr.length; i++) {
+        let j = i+1
+        while (dataArr[i] > dataArr[j]) {
+            [dataArr[i], dataArr[j]] = [dataArr[j], dataArr[i]]
             j++
         }
 
     }
-    return arr
+
+    console.log(convertData(dataArr))
+    return convertData(dataArr)
 }
 
 export {bubbleSort}
