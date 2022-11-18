@@ -1,3 +1,6 @@
+const abortController = new AbortController
+let signal = abortController.signal
+
 function sleep(time) {
     return new Promise(resolve => setTimeout(resolve, time))
 }
@@ -17,15 +20,12 @@ async function bubbleSort(arr, setState, setData) {
         await sleep(500)
 
         while (arr[i] > arr[j]) {
-            // console.log('swapping elements')
             [arr[i], arr[j]] = [arr[j], arr[i]]
             setData(convertData(arr))
             await sleep(500)
             setState(j)
             j++
-            // await sleep(2000)
         }
-        // setData(convertData(arr))
     }
 
     return arr
@@ -46,18 +46,25 @@ function partition(arr, start, end) {
     return swapIdx
 }
 
-async function quickSort(arr, left, right, setState, setData) {
+async function quickSort(arr, left, right, setState, setSection, setData) {
+    if (signal.aborted) {
+        console.log("aborted")
+        // signal = abortController.signal
+        return arr
+    }
     if (left < right) {
         let pivotIndex = partition(arr, left, right)
         setState(pivotIndex)
         await sleep(1000)
 
-        await quickSort(arr, left, pivotIndex - 1, setState, setData)
-        await quickSort(arr, pivotIndex + 1, right, setState, setData)
+        await quickSort(arr, left, pivotIndex - 1, setState, setSection, setData)
+        await quickSort(arr, pivotIndex + 1, right, setState, setSection, setData)
 
     }
 
     setData(convertData(arr))
+    await sleep(1000)
+
     return arr
 }
 
@@ -75,4 +82,4 @@ function cyclicSort(arr) {
     return arr
 }
 
-export {bubbleSort, quickSort, cyclicSort, convertData}
+export {bubbleSort, quickSort, cyclicSort, convertData, abortController}
