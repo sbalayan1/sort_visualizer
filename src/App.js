@@ -1,39 +1,28 @@
+import { hasSelectionSupport } from '@testing-library/user-event/dist/utils'
 import React, {useState, useEffect} from 'react'
-import {ResponsiveContainer, BarChart, Bar, YAxis, XAxis, Tooltip, CartesianGrid} from 'recharts'
+import {ResponsiveContainer, BarChart, Bar, YAxis, XAxis, Tooltip, CartesianGrid, Cell} from 'recharts'
 
 import {bubbleSort, quickSort, cyclicSort, convertData} from './sortAlgos'
 
 function App() {
+  const [arrElem, setArrElem] = useState(0)
   const [data, setData] = useState([])
   const [sortMethod, setSortMethod] = useState("Quick Sort")
   const [timeToComplete, setTimeToComplete] = useState(0)
-
   
-  const handleSort = () => {
+  const handleSort = async () => {
     const start = window.performance.now()
     const dataArr = data.map(obj => obj.value)
     let sortedData; 
     if (sortMethod === "Quick Sort") {
-      sortedData = quickSort(dataArr, 0, dataArr.length - 1)
+      sortedData = await quickSort(dataArr, 0, dataArr.length - 1, setArrElem, setData)
     }
 
     if (sortMethod === "Bubble Sort") {
-      sortedData = bubbleSort(dataArr)
+      sortedData = await bubbleSort(dataArr, setArrElem, setData)
       while (sortedData.find((val, index) => val > sortedData[index+1]) !== undefined) {
-        bubbleSort(dataArr)
+        await bubbleSort(dataArr, setArrElem, setData)
       }
-    }
-
-    if (sortMethod === "Cyclic Sort") {
-      console.log('firing')
-      sortedData = cyclicSort(dataArr)
-      console.log(sortedData)
-      while (sortedData.find((val, index) => val > sortedData[index+1]) !== undefined) {
-        console.count('looping')
-        cyclicSort(dataArr)
-      }
-
-      console.log(sortedData)
     }
 
     const end = window.performance.now()
@@ -55,6 +44,16 @@ function App() {
     setData(array)
   }
 
+  const handleFillBar = (index) => {
+    if (index === arrElem) {
+      return "#4caf50"
+    // } else if (index === compareElem) {
+    //   return "yellow"
+    } else {
+      return "red"
+    }
+  }
+
   useEffect(() => {
     handleReset()
   }, [])
@@ -68,7 +67,11 @@ function App() {
           <YAxis dataKey="value"/>
           <CartesianGrid stroke="#ccc" strokeDasharray={"5 5"}/>
           <Tooltip />
-          <Bar dataKey="value" stroke="#344F74" fill="#ba000d"/>
+          <Bar dataKey="value" stroke="#344F74" fill="#ba000d">
+            {data.map((entry, index) => 
+              <Cell key={`cell-${index}`} fill={handleFillBar(index)}/>
+            )}
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
       <select onChange={(e) => setSortMethod(e.target.value)}>
