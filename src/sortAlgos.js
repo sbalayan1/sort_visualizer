@@ -49,7 +49,7 @@ function partition(arr, start, end) {
 async function quickSort(arr, left, right, setState, setSection, setData) {
     if (signal.aborted) {
         console.log("aborted")
-        // signal = abortController.signal
+        signal = abortController.signal
         return arr
     }
     if (left < right) {
@@ -82,4 +82,4 @@ function cyclicSort(arr) {
     return arr
 }
 
-export {bubbleSort, quickSort, cyclicSort, convertData, abortController}
+export {bubbleSort, quickSort, cyclicSort, convertData, sleep}
