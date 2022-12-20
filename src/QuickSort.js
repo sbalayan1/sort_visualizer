@@ -5,43 +5,70 @@ import { convertData, sleep } from './sortAlgos'
 
 export default function QuickSort({setTimeToComplete}) {
   const [i, setI] = useState(0)
+  // const [swapIdxState, setSwapIdxState] = useState(0)
   const [currArr, setCurrArr] = useState([])
   const [data, setData] = useState([])
   const [status, setStatus] = useState("")
 
-  const partition = (arr, start, end) => {
+  const partition = async (arr, start, end) => {
+    
     let pivot = arr[start]
     let swapIdx = start
 
+    await sleep(1000)
+
     for (let i = start+1; i<=end; i++) {
+        setI(i)
+        await sleep(1000)
         if (arr[i] < pivot) {
             swapIdx++
+
             [arr[swapIdx], arr[i]] = [arr[i], arr[swapIdx]]
+            setStatus("swapping swapIdx and i")
+            // setData(convertData(arr)) //This is not changing the displayed array
+            await sleep(2000)
+            setStatus("partitioning")
         }
     }
 
-    [arr[start], arr[swapIdx]] = [arr[swapIdx], arr[start]]
-    return swapIdx
+    setStatus("Done looping over array")
+    await sleep(1000)
+    console.log("before", arr, start, swapIdx)
+    setStatus("Swapping Start and SwapIdx")
+    console.log("after", arr, start, swapIdx)
+    let test = arr[swapIdx]
+    arr[swapIdx] = arr[start]
+    arr[start] = test 
+   // [arr[start], arr[swapIdx]] = [arr[swapIdx], arr[start]] //somehow this doesn't work. however when we break it up into parts, it does
 
+
+    return swapIdx
   }
 
   const quickSort = async (arr, left, right) => {
     if (left < right) {
-        setCurrArr(arr.slice(left, right+1))
-        setStatus("partitioning")
-        let pivotIndex = partition(arr, left, right)
-        setI(pivotIndex)
+        // setCurrArr(arr.slice(left, right+1))
+        // setI(left)
+        setStatus("Partitioning")
+        let pivotIndex = await partition(arr, left, right)
+
         setStatus("Done partitioning")
+
         await sleep(2000)
+
+        // setI(pivotIndex)
 
         setStatus("Sorting Left")
         await quickSort(arr, left, pivotIndex - 1)
+
         setStatus("Sorting Right")
         await quickSort(arr, pivotIndex + 1, right)
+
+        setStatus("Finishing up")
     }
-    setStatus("Finishing up")
+
     setData(convertData(arr))
-    await sleep(1000)
+    await sleep(2000)
     return arr
   }
 
@@ -71,6 +98,7 @@ export default function QuickSort({setTimeToComplete}) {
     setTimeToComplete(0)
     setData(array)
     setI(0)
+    setStatus("")
   }
 
   const handleFillBar = (index) => {
