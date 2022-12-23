@@ -11,7 +11,6 @@ export default function QuickSort({setTimeToComplete}) {
   const [status, setStatus] = useState("")
 
   const partition = async (arr, start, end) => {
-    
     let pivot = arr[start]
     let swapIdx = start
 
