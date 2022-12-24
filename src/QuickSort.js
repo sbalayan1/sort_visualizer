@@ -152,11 +152,12 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, se
   }, [setStatus, setTimeToComplete, size])
 
   const handleFillBar = (index) => {
+    if (index === pivot && index === i) return "red"
     if (index === i) return "green"
     if (index === pivot) return "red"
 
     //need to fix
-    // if (data.find(obj => obj.value === data[index].value)) return "yellow"
+    if (index < currArr.length) return "yellow"
     return "red"
   }
 
