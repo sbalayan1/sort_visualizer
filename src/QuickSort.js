@@ -1,7 +1,6 @@
 import { setSelectionRange } from '@testing-library/user-event/dist/utils'
 import React, {useState, useEffect, useCallback} from 'react'
 import {ResponsiveContainer, BarChart, Bar, YAxis, XAxis, Tooltip, CartesianGrid, Cell} from 'recharts'
-
 import { convertData, sleep } from './sortAlgos'
 
 export default function QuickSort({setTimeToComplete, setStatus, delay, size, setDelay}) {
@@ -20,32 +19,32 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, se
     await sleep(delay)
 
     for (let i = start+1; i<=end; i++) {
-        setStatus("Loop through array. When pivot is larger than the current element, increment swap index and swap I and the swap index")
+        setStatus("Loop through array. When first element is larger than the current element, increment swap index and swap I and the start element")
         await sleep(delay)
 
         setI(i)
         await sleep(delay)
 
-        if (arr[i] < arr[swapIdx]) {
-            setStatus("Pivot is larger than current element. Increasing swap index")
-            await sleep(delay)
+        if (arr[i] < arr[start]) {
+          setStatus("First element is larger than current element. Increasing swap index")
+          await sleep(delay)
 
-            swapIdx++
-            setPivot(swapIdx)
-            await sleep(delay)
+          swapIdx++
+          setPivot(swapIdx)
+          await sleep(delay)
 
-            let temp = arr[swapIdx]
-            arr[swapIdx] = arr[i]
-            arr[i] = temp
+          let temp = arr[swapIdx]
+          arr[swapIdx] = arr[i]
+          arr[i] = temp
 
-            // [arr[swapIdx], arr[i]] = [arr[i], arr[swapIdx]]
-            setStatus("Swapping the current element and the swap index")
-            await sleep(delay)
+          // [arr[swapIdx], arr[i]] = [arr[i], arr[swapIdx]]
+          setStatus("Swapping the current element and the swap index")
+          await sleep(delay)
 
-            setPivot(i)
-            setI(swapIdx)
-            setData(convertData(arr)) 
-            await sleep(delay)
+          setPivot(i)
+          setI(swapIdx)
+          setData(convertData(arr)) 
+          await sleep(delay)
         }
     }
 
@@ -98,10 +97,12 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, se
     return arr
   }
 
-  const noDelayPartition = (arr, start) => {
+  const noDelayPartition = (arr, start, end) => {
     let swapIdx = start
+    let pivot = arr[start]
+
     for (let i = start+1; i<arr.length; i++) {
-      if(arr[swapIdx] > arr[i]) {
+      if(pivot > arr[i]) {
         swapIdx++
         [arr[swapIdx], arr[i]] = [arr[i], arr[swapIdx]]
       }
@@ -113,7 +114,7 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, se
 
   const noDelayQuickSort = async (arr, left, right) => {
     if (left < right) {
-      let pvtIdx = noDelayPartition(arr, left)
+      let pvtIdx = noDelayPartition(arr, left, right)
       await noDelayQuickSort(arr, left, pvtIdx - 1)
       await noDelayQuickSort(arr, pvtIdx+1, right)
     }
@@ -126,10 +127,10 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, se
     const start = window.performance.now()
     const dataArr = data.map(obj => obj.value)
     const selectFunc = isOn ? quickSort : noDelayQuickSort
-    const sortedData = await selectFunc(dataArr, 0, dataArr.length - 1)
-    console.log(sortedData)
+    let sortedData = await selectFunc(dataArr, 0, dataArr.length - 1)
+  
     // while (sortedData.find((val, idx) => val > sortedData[idx+1])) {
-    //   await quickSort(dataArr, 0, dataArr.length - 1)
+    //   sortedData = await quickSort(dataArr, 0, dataArr.length - 1)
     // }
 
     setStatus("Sort complete")
@@ -157,7 +158,9 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, se
   const handleFillBar = (index) => {
     if (index === i) return "green"
     if (index === pivot) return "red"
-    if (index < currArr.length) return "yellow"
+
+    //need to fix
+    // if (data.find(obj => obj.value === data[index].value)) return "yellow"
     return "red"
   }
 
