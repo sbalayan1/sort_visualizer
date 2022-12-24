@@ -12,7 +12,7 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, se
 
   const partition = async (arr, start, end) => {
     let swapIdx = start
-    setStatus(`Pivot set to ${pivot}`)
+    setStatus(`Pivot set to ${start}`)
     await sleep(delay)
 
     setPivot(swapIdx)
@@ -26,7 +26,7 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, se
         await sleep(delay)
 
         if (arr[i] < arr[start]) {
-          setStatus("First element is larger than current element. Increasing swap index")
+          setStatus(`First element is larger than current element. Increasing swap index to ${swapIdx + 1}`)
           await sleep(delay)
 
           swapIdx++
@@ -38,7 +38,7 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, se
           arr[i] = temp
 
           // [arr[swapIdx], arr[i]] = [arr[i], arr[swapIdx]]
-          setStatus("Swapping the current element and the swap index")
+          setStatus("Swapping the current element and the start index")
           await sleep(delay)
 
           setPivot(i)
@@ -129,10 +129,6 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, se
     const selectFunc = isOn ? quickSort : noDelayQuickSort
     let sortedData = await selectFunc(dataArr, 0, dataArr.length - 1)
   
-    // while (sortedData.find((val, idx) => val > sortedData[idx+1])) {
-    //   sortedData = await quickSort(dataArr, 0, dataArr.length - 1)
-    // }
-
     setStatus("Sort complete")
     const end = window.performance.now()
     setTimeToComplete(Math.round(end - start))
