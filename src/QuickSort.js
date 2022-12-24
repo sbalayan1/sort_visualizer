@@ -173,7 +173,7 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, se
     return (
         <>
           <br></br>
-          <label style={{backgroundColor: isOn ? "green" : "red"}}>Delay: {isOn ? "On": "Off"} </label>
+          <label style={{backgroundColor: isOn ? "green" : "red"}}>Delay: {isOn ? "On": "Off"} @ {delay}ms</label>
           <button onClick={handleDelay}>{isOn ? "Turn Off": "Turn On"}</button>
           <br></br>
           {pivot ? `Pivot Value: ${data[pivot].value}`: null}
