@@ -31,42 +31,7 @@ async function bubbleSort(arr, setState, setData) {
     return arr
 }
 
-function partition(arr, start, end) {
-    let pivot = arr[start]
-    let swapIdx = start
 
-    for (let i = start+1; i<=end; i++) {
-        if (arr[i] < pivot) {
-            swapIdx++
-            [arr[swapIdx], arr[i]] = [arr[i], arr[swapIdx]]
-        }
-    }
-
-    [arr[start], arr[swapIdx]] = [arr[swapIdx], arr[start]]
-    return swapIdx
-}
-
-async function quickSort(arr, left, right, setState, setSection, setData) {
-    if (signal.aborted) {
-        console.log("aborted")
-        signal = abortController.signal
-        return arr
-    }
-    if (left < right) {
-        let pivotIndex = partition(arr, left, right)
-        setState(pivotIndex)
-        await sleep(1000)
-
-        await quickSort(arr, left, pivotIndex - 1, setState, setSection, setData)
-        await quickSort(arr, pivotIndex + 1, right, setState, setSection, setData)
-
-    }
-
-    setData(convertData(arr))
-    await sleep(1000)
-
-    return arr
-}
 
 function cyclicSort(arr) {
     let i = 0
@@ -99,5 +64,35 @@ function selectionSort(arr) {
     return arr
 }
 
+const partition = (arr, start, end) => {
+    let swapIdx = start
+    for (let i = start + 1; i<=end; i++) {
+        if (arr[start] > arr[i]) {
+            swapIdx ++
+            [arr[i], arr[swapIdx]] = [arr[swapIdx], arr[i]]
+        }
+    }
 
-export {bubbleSort, quickSort, cyclicSort, convertData, sleep}
+    [arr[start], arr[swapIdx]] = [arr[swapIdx], arr[start]]
+    return swapIdx
+}
+
+
+const quickSort = (arr, left, right) => {
+    if (left < right) {
+        let pivot = partition(arr, left, right)
+        quickSort(arr, left, pivot - 1)
+        quickSort(arr, pivot + 1, right)
+    }
+
+    return arr
+}
+
+
+            
+
+    
+
+
+
+export {bubbleSort, cyclicSort, convertData, sleep}

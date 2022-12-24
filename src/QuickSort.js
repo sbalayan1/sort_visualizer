@@ -79,9 +79,6 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, se
         setStatus("Done partitioning")
         await sleep(delay)
 
-        // setStatus("Setting the post partition pivot")
-        // setI(pivotIndex)
-
         setStatus("Sorting Left")
         await sleep(delay)
         await quickSort(arr, left, pivotIndex - 1)
@@ -101,7 +98,7 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, se
     let swapIdx = start
     let pivot = arr[start]
 
-    for (let i = start+1; i<arr.length; i++) {
+    for (let i = start+1; i<=end; i++) {
       if(pivot > arr[i]) {
         swapIdx++
         [arr[swapIdx], arr[i]] = [arr[i], arr[swapIdx]]
@@ -136,11 +133,17 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, se
   }
 
   const handleReset = useCallback(() => {
-    const res = []
+    const res = [
+      // {index: 0, value: 5},
+      // {index: 1, value: 4},
+      // {index: 2, value: 3},
+      // {index: 3, value: 2},
+      // {index: 4, value: 1},
+    ]
     while (res.length < size) {
       const obj = {}
       obj["index"] = res.length
-      obj["value"] = Math.floor(Math.random() * 10) + 1
+      obj["value"] = Math.floor(Math.random() * 5) + 1
       res.push(obj)
     }
     setTimeToComplete(0)
