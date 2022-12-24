@@ -12,6 +12,12 @@ function App() {
   const [timeToComplete, setTimeToComplete] = useState(0)
   const [delay, setDelay] = useState(0)
   const [status, setStatus] = useState(null)
+  const [isOn, setIsOn] = useState(false)
+
+  const handleDelay = () => {
+    setIsOn(!isOn)
+    setDelay(1000)
+  }
   
   return (
     <>
@@ -37,10 +43,13 @@ function App() {
       <label>Data Size: </label>
       <input onChange={(e) => setSize(e.target.value)} value={size} placeholder="Input data size..."/>
       <br></br>
-
       {status ? `Status: ${status}`: null}
-      {sortMethod === "Quick Sort" ? <QuickSort setTimeToComplete={setTimeToComplete} delay={delay} setDelay={setDelay} setStatus={setStatus} size={size}/> : null}
-      {sortMethod === "Bubble Sort" ? <BubbleSort setTimeToComplete={setTimeToComplete} size={size}/> : null}
+      <br></br>
+      <label style={{backgroundColor: isOn ? "green" : "red"}}>Delay: {isOn ? "On": "Off"} @ {delay}ms</label>
+      <button onClick={handleDelay}>{isOn ? "Turn Off": "Turn On"}</button>
+
+      {sortMethod === "Quick Sort" ? <QuickSort setTimeToComplete={setTimeToComplete} delay={delay} isOn={isOn} setStatus={setStatus} size={size}/> : null}
+      {sortMethod === "Bubble Sort" ? <BubbleSort setTimeToComplete={setTimeToComplete} size={size} isOn={isOn}/>: null}
       {sortMethod === "Selection Sort" ? <SelectionSort setTimeToComplete={setTimeToComplete} delay={delay} setStatus={setStatus} size={size}/> : null}
     </>
   );

@@ -3,12 +3,11 @@ import React, {useState, useEffect, useCallback} from 'react'
 import {ResponsiveContainer, BarChart, Bar, YAxis, XAxis, Tooltip, CartesianGrid, Cell} from 'recharts'
 import { convertData, sleep } from './sortAlgos'
 
-export default function QuickSort({setTimeToComplete, setStatus, delay, size, setDelay}) {
+export default function QuickSort({setTimeToComplete, setStatus, delay, size, isOn}) {
   const [i, setI] = useState(0)
   const [pivot, setPivot] = useState(null)
   const [data, setData] = useState([])
   const [currArr, setCurrArr] = useState([])
-  const [isOn, setIsOn] = useState(false)
 
   const partition = async (arr, start, end) => {
     let swapIdx = start
@@ -164,20 +163,12 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, se
     return "red"
   }
 
-  const handleDelay = () => {
-    setIsOn(!isOn)
-    setDelay(1000)
-  }
-
   useEffect(() => {
     handleReset()
   }, [handleReset])
 
     return (
         <>
-          <br></br>
-          <label style={{backgroundColor: isOn ? "green" : "red"}}>Delay: {isOn ? "On": "Off"} @ {delay}ms</label>
-          <button onClick={handleDelay}>{isOn ? "Turn Off": "Turn On"}</button>
           <br></br>
           {pivot ? `Pivot Value: ${data[pivot].value}`: null}
           <ResponsiveContainer height={500} width="50%">
