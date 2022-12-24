@@ -100,7 +100,4 @@ function selectionSort(arr) {
 }
 
 
-console.log(selectionSort([5,4,3,2,1]))
-
-
-// export {bubbleSort, quickSort, cyclicSort, convertData, sleep}
+export {bubbleSort, quickSort, cyclicSort, convertData, sleep}

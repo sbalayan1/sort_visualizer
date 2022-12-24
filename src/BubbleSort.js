@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react'
-import {ResponsiveContainer, BarChart, Bar, YAxis, XAxis, Tooltip, CartesianGrid, Cell, Label} from 'recharts'
+import React, {useState, useEffect, useCallback} from 'react'
+import {ResponsiveContainer, BarChart, Bar, YAxis, XAxis, Tooltip, CartesianGrid, Cell} from 'recharts'
 
 import { convertData, sleep } from './sortAlgos'
 
-export default function BubbleSort({setTimeToComplete}) {
+export default function BubbleSort({setTimeToComplete, size}) {
     const [i, setI] = useState(0)
     const [j, setJ] = useState(i+1)
     const [data, setData] = useState([])
@@ -49,9 +49,9 @@ export default function BubbleSort({setTimeToComplete}) {
         return arr
     }
 
-    const handleReset = () => {
+    const handleReset = useCallback(() => {
         let arr = []
-        while (arr.length < 5) {
+        while (arr.length < size) {
             const obj = {}
             obj["index"] = arr.length
             obj["value"] = Math.floor(Math.random() * 10) + 1
@@ -62,11 +62,11 @@ export default function BubbleSort({setTimeToComplete}) {
         setData(arr)
         setI(0)
         setJ(1)
-    }
+    }, [setTimeToComplete, size])
 
     useEffect(() => {
         handleReset()
-    }, [])
+    }, [handleReset])
 
     return (
         <>
