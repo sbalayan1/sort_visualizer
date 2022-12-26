@@ -1,4 +1,3 @@
-import { setSelectionRange } from '@testing-library/user-event/dist/utils'
 import React, {useState, useEffect, useCallback} from 'react'
 import {ResponsiveContainer, BarChart, Bar, YAxis, XAxis, Tooltip, CartesianGrid, Cell} from 'recharts'
 import { convertData, sleep } from './sortAlgos'
@@ -132,13 +131,7 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, is
   }
 
   const handleReset = useCallback(() => {
-    const res = [
-      // {index: 0, value: 5},
-      // {index: 1, value: 4},
-      // {index: 2, value: 3},
-      // {index: 3, value: 2},
-      // {index: 4, value: 1},
-    ]
+    const res = []
     while (res.length < size) {
       const obj = {}
       obj["index"] = res.length
@@ -159,7 +152,7 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, is
     if (index === pivot) return "red"
 
     //need to fix
-    if (index < currArr.length) return "yellow"
+    if (currArr.find(val => val === data[index].value)) return "yellow"
     return "red"
   }
 

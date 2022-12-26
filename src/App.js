@@ -49,7 +49,7 @@ function App() {
       <button onClick={handleDelay}>{isOn ? "Turn Off": "Turn On"}</button>
 
       {sortMethod === "Quick Sort" ? <QuickSort setTimeToComplete={setTimeToComplete} delay={delay} isOn={isOn} setStatus={setStatus} size={size}/> : null}
-      {sortMethod === "Bubble Sort" ? <BubbleSort setTimeToComplete={setTimeToComplete} size={size} isOn={isOn}/>: null}
+      {sortMethod === "Bubble Sort" ? <BubbleSort setTimeToComplete={setTimeToComplete} size={size} isOn={isOn} setStatus={setStatus} delay={delay}/>: null}
       {sortMethod === "Selection Sort" ? <SelectionSort setTimeToComplete={setTimeToComplete} delay={delay} setStatus={setStatus} size={size}/> : null}
     </>
   );
