@@ -89,10 +89,10 @@ const quickSort = (arr, left, right) => {
 }
 
 
-            
 
-    
+const mergeSort = (arr, left, right) => {
+    return arr
+}    
 
 
-
-export {bubbleSort, cyclicSort, convertData, sleep}
+export {convertData, sleep}

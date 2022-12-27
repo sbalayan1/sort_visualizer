@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from 'react'
 import {ResponsiveContainer, BarChart, Bar, YAxis, XAxis, Tooltip, CartesianGrid, Cell} from 'recharts'
 import { convertData, sleep } from './sortAlgos'
 
-export default function QuickSort({setTimeToComplete, setStatus, delay, size, isOn}) {
+export default function QuickSort({setTimeToComplete, setStatus, delay, isOn, seedData}) {
   const [i, setI] = useState(0)
   const [pivot, setPivot] = useState(null)
   const [data, setData] = useState([])
@@ -117,7 +117,6 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, is
     return arr
   }
 
-
   const handleSort = async () => {
     const start = window.performance.now()
     const dataArr = data.map(obj => obj.value)
@@ -131,20 +130,14 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, size, is
   }
 
   const handleReset = useCallback(() => {
-    const res = []
-    while (res.length < size) {
-      const obj = {}
-      obj["index"] = res.length
-      obj["value"] = Math.floor(Math.random() * 5) + 1
-      res.push(obj)
-    }
+    const res = seedData()
     setTimeToComplete(0)
     setData(res)
     setI(0)
     setStatus(null)
     setCurrArr([])
     setPivot(null)
-  }, [setStatus, setTimeToComplete, size])
+  }, [setStatus, setTimeToComplete, seedData])
 
   const handleFillBar = (index) => {
     if (index === pivot && index === i) return "red"

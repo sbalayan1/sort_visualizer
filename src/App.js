@@ -4,6 +4,7 @@ import React, {useState} from 'react'
 import QuickSort from './QuickSort'
 import BubbleSort from './BubbleSort'
 import SelectionSort from './SelectionSort'
+import MergeSort from './MergeSort'
 
 
 function App() {
@@ -18,6 +19,18 @@ function App() {
     setIsOn(!isOn)
     setDelay(1000)
   }
+
+  const seedData = () => {
+    const res = []
+    while (res.length < size) {
+        const obj = {}
+        obj["index"] = res.length 
+        obj["value"] = Math.floor(Math.random() * 10) + 1
+        res.push(obj)
+    }
+
+    return res
+  }
   
   return (
     <>
@@ -28,6 +41,7 @@ function App() {
         <option value="Quick Sort">Quick Sort</option>
         <option value="Bubble Sort">Bubble Sort</option>
         <option value="Selection Sort">Selection Sort</option>
+        <option value="Merge Sort">Merge Sort</option>
       </select>
       <br></br>
       
@@ -48,9 +62,10 @@ function App() {
       <label style={{backgroundColor: isOn ? "green" : "red"}}>Delay: {isOn ? "On": "Off"} @ {delay}ms</label>
       <button onClick={handleDelay}>{isOn ? "Turn Off": "Turn On"}</button>
 
-      {sortMethod === "Quick Sort" ? <QuickSort setTimeToComplete={setTimeToComplete} delay={delay} isOn={isOn} setStatus={setStatus} size={size}/> : null}
-      {sortMethod === "Bubble Sort" ? <BubbleSort setTimeToComplete={setTimeToComplete} size={size} isOn={isOn} setStatus={setStatus} delay={delay}/>: null}
-      {sortMethod === "Selection Sort" ? <SelectionSort setTimeToComplete={setTimeToComplete} delay={delay} setStatus={setStatus} size={size}/> : null}
+      {sortMethod === "Quick Sort" ? <QuickSort setTimeToComplete={setTimeToComplete} delay={delay} isOn={isOn} setStatus={setStatus} seedData={seedData}/> : null}
+      {sortMethod === "Bubble Sort" ? <BubbleSort setTimeToComplete={setTimeToComplete} isOn={isOn} setStatus={setStatus} delay={delay} seedData={seedData}/>: null}
+      {sortMethod === "Selection Sort" ? <SelectionSort setTimeToComplete={setTimeToComplete} delay={delay} setStatus={setStatus} seedData={seedData}/> : null}
+      {sortMethod === "Merge Sort" ? <MergeSort setTimeToComplete={setTimeToComplete} delay={delay} setStatus={setStatus} seedData={seedData}/> : null}
     </>
   );
 }

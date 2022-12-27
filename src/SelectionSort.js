@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from 'react'
 import {ResponsiveContainer, BarChart, Bar, YAxis, XAxis, Tooltip, CartesianGrid, Cell} from 'recharts'
 import { convertData, sleep } from './sortAlgos'
 
-export default function SelectionSort({setTimeToComplete, delay, setStatus, size}) {
+export default function SelectionSort({setTimeToComplete, delay, setStatus, seedData}) {
     const [i, setI] = useState(0)
     const [j, setJ] = useState(null)
     const [min, setMin] = useState(null)
@@ -69,21 +69,14 @@ export default function SelectionSort({setTimeToComplete, delay, setStatus, size
     }
 
     const handleReset = useCallback(() => {
-        const res = []
-        while (res.length < size) {
-            const obj = {}
-            obj["index"] = res.length 
-            obj["value"] = Math.floor(Math.random() * 10) + 1
-            res.push(obj)
-        }
-
+        const res = seedData()
         setI(0)
         setJ(null)
         setMin(null)
         setStatus(null)
         setData(res)
         setTimeToComplete(0)
-    }, [setStatus, setTimeToComplete, size])
+    }, [setStatus, setTimeToComplete, seedData])
     
     const handleFillBar = (index) => {
         if (index === i) return "green"

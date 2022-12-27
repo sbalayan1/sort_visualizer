@@ -3,7 +3,7 @@ import {ResponsiveContainer, BarChart, Bar, YAxis, XAxis, Tooltip, CartesianGrid
 
 import { convertData, sleep } from './sortAlgos'
 
-export default function BubbleSort({setTimeToComplete, size, isOn, setStatus, delay}) {
+export default function BubbleSort({setTimeToComplete, isOn, setStatus, delay, seedData}) {
     const [i, setI] = useState(0)
     const [j, setJ] = useState(i+1)
     const [data, setData] = useState([])
@@ -73,19 +73,13 @@ export default function BubbleSort({setTimeToComplete, size, isOn, setStatus, de
     }
 
     const handleReset = useCallback(() => {
-        let arr = []
-        while (arr.length < size) {
-            const obj = {}
-            obj["index"] = arr.length
-            obj["value"] = Math.floor(Math.random() * 10) + 1
-            arr.push(obj)
-        }
+        const res = seedData()
 
         setTimeToComplete(0)
-        setData(arr)
+        setData(res)
         setI(0)
         setJ(1)
-    }, [setTimeToComplete, size])
+    }, [setTimeToComplete, seedData])
 
     useEffect(() => {
         handleReset()
