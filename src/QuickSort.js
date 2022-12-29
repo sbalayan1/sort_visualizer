@@ -118,12 +118,11 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, isOn, se
   }
 
   const handleSort = async () => {
+    console.log("handleSort function invoked")
     const start = window.performance.now()
     const dataArr = data.map(obj => obj.value)
     const selectFunc = isOn ? quickSort : noDelayQuickSort
     let sortedData = await selectFunc(dataArr, 0, dataArr.length - 1)
-
-    console.log(sortedData)
     setStatus("Sort complete")
     const end = window.performance.now()
     setTimeToComplete(Math.round(end - start))
@@ -131,6 +130,7 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, isOn, se
   }
 
   const handleReset = useCallback(() => {
+    console.count("handleReset invoked")
     const res = seedData()
     setTimeToComplete(0)
     setData(res)
@@ -151,6 +151,7 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, isOn, se
   }
 
   useEffect(() => {
+    console.count("useEffect firing")
     handleReset()
   }, [handleReset])
 

@@ -22,7 +22,7 @@ function App() {
   }
 
   const seedData = useCallback(() => {
-  
+    console.count("seedData function invoked")
     const res = []
     while (res.length < size) {
         const obj = {}
@@ -31,10 +31,10 @@ function App() {
         res.push(obj)
     }
 
-    console.log(res)
     return res
   }, [size])
 
+  console.count("app rerendering")
   return (
     <>
      <h4>Time to complete: {timeToComplete}ms</h4>
