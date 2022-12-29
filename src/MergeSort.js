@@ -16,17 +16,19 @@ export default function MergeSort({setTimeToComplete, setStatus, delay, isOn, se
     }
 
     const mergeSort = (arr) => {
-        if (arr.length >= 1) return arr
+        if (arr.length <= 1) return arr
         const mid = Math.floor(arr.length/2)
         return mergeArrays(mergeSort(arr.slice(0, mid)), mergeSort(arr.slice(mid, arr.length)))
     }
 
 
-    const handleSort = () => {
+    const handleSort = async () => {
         const start = window.performance.now()
         const dataArr = data.map(obj => obj.value)
         setStatus("sorting")
-        let sortedData = mergeSort(dataArr)
+  
+        let sortedData = await mergeSort(dataArr)
+        console.log(sortedData)
         setStatus("sort complete")
         const end = window.performance.now()
         setData(convertData(sortedData))

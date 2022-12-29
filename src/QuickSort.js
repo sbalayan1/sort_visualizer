@@ -122,7 +122,8 @@ export default function QuickSort({setTimeToComplete, setStatus, delay, isOn, se
     const dataArr = data.map(obj => obj.value)
     const selectFunc = isOn ? quickSort : noDelayQuickSort
     let sortedData = await selectFunc(dataArr, 0, dataArr.length - 1)
-  
+
+    console.log(sortedData)
     setStatus("Sort complete")
     const end = window.performance.now()
     setTimeToComplete(Math.round(end - start))

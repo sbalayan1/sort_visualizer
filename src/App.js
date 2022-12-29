@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useCallback} from 'react'
 // import {bubbleSort, quickSort, cyclicSort, convertData, abortController} from './sortAlgos'
 
 import QuickSort from './QuickSort'
@@ -15,12 +15,14 @@ function App() {
   const [status, setStatus] = useState(null)
   const [isOn, setIsOn] = useState(false)
 
+
   const handleDelay = () => {
     setIsOn(!isOn)
     setDelay(1000)
   }
 
-  const seedData = () => {
+  const seedData = useCallback(() => {
+  
     const res = []
     while (res.length < size) {
         const obj = {}
@@ -29,9 +31,10 @@ function App() {
         res.push(obj)
     }
 
+    console.log(res)
     return res
-  }
-  
+  }, [size])
+
   return (
     <>
      <h4>Time to complete: {timeToComplete}ms</h4>
